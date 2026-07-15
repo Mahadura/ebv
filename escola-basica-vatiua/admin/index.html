@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Escola Básica de Vatiua</title>
+    <link rel="icon" href="../img/icons/house-building.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container admin-container">
+        <!-- ========== HEADER ========== -->
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <img src="../img/icons/house-building.svg" alt="Escola" class="icon-logo">
+                    <h1>ESCOLA BÁSICA DE VATIUA</h1>
+                </div>
+            </div>
+            <h2 class="login-titulo">🔐 PAINEL DO ADMINISTRADOR</h2>
+        </header>
+
+        <!-- ========== BODY ========== -->
+        <main>
+            <!-- Estatísticas -->
+            <section class="estatisticas">
+                <h3>📊 ESTATÍSTICAS GERAIS</h3>
+                <div class="cards">
+                    <div class="card"><span>👥 TOTAL</span><strong id="total">0</strong></div>
+                    <div class="card"><span>👨‍🏫 PROF.</span><strong id="prof">0</strong></div>
+                    <div class="card"><span>🛠️ AUX.</span><strong id="aux">0</strong></div>
+                    <div class="card"><span>🛡️ GUARDA</span><strong id="guarda">0</strong></div>
+                    <div class="card"><span>👨 MASC.</span><strong id="masc">0</strong></div>
+                    <div class="card"><span>👩 FEM.</span><strong id="fem">0</strong></div>
+                </div>
+            </section>
+
+            <!-- Filtros -->
+            <section class="filtros">
+                <h3>🔍 FILTROS E BUSCA</h3>
+                <div class="filtros-container">
+                    <div class="search-box">
+                        <img src="../img/icons/search.svg" alt="Pesquisar" class="icon-search">
+                        <input type="text" id="buscar" placeholder="Pesquisar por nome...">
+                    </div>
+                    <select id="filtro-funcao">
+                        <option value="Todos">Função: Todos</option>
+                        <option value="Director da Escola">Director da Escola</option>
+                        <option value="Director Adjunto Pedagógico">Director Adjunto Pedagógico</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Auxiliar">Auxiliar</option>
+                        <option value="Guarda">Guarda</option>
+                    </select>
+                    <select id="filtro-sexo">
+                        <option value="Todos">Sexo: Todos</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Gerar Relatório -->
+            <section class="relatorio">
+                <h3>📄 GERAR RELATÓRIO</h3>
+                <div class="botoes-relatorio">
+                    <button onclick="gerarPDF()" class="btn-pdf">
+                        <img src="../img/icons/document.svg" alt="PDF" class="icon-btn"> PDF
+                    </button>
+                    <button class="btn-excel">
+                        <img src="../img/icons/share.svg" alt="Excel" class="icon-btn"> EXCEL
+                    </button>
+                    <button class="btn-imprimir">
+                        <img src="../img/icons/print.svg" alt="Imprimir" class="icon-btn"> IMPRIMIR
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tabela -->
+            <section class="tabela">
+                <h3>📋 LISTA DE REGISTOS (<span id="qtd-registros">0</span> registos encontrados)</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ORD</th>
+                                <th>NOME COMPLETO</th>
+                                <th>FUNÇÃO</th>
+                                <th>SEXO</th>
+                                <th>CALÇADO</th>
+                                <th>TAMANHO ROUPA</th>
+                                <th>DISTÂNCIA</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-registros">
+                            <!-- Dados carregados via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Opções Rápidas -->
+            <section class="opcoes">
+                <h3>⚙️ OPÇÕES RÁPIDAS</h3>
+                <div class="botoes-opcoes">
+                    <button class="btn-exportar">
+                        <img src="../img/icons/share.svg" alt="Exportar" class="icon-btn"> EXPORTAR TODOS DADOS
+                    </button>
+                    <button class="btn-limpar" onclick="limparRegistos()">
+                        <img src="../img/icons/trash.svg" alt="Limpar" class="icon-btn"> LIMPAR REGISTOS
+                    </button>
+                    <button class="btn-dashboard">
+                        <img src="../img/icons/dashboard-panel.svg" alt="Dashboard" class="icon-btn"> DASHBOARD GRÁFICOS
+                    </button>
+                    <button class="btn-email">
+                        <img src="../img/icons/at.svg" alt="Email" class="icon-btn"> ENVIAR POR EMAIL
+                    </button>
+                    <button class="btn-atualizar" onclick="carregarDados()">
+                        <img src="../img/icons/refresh.svg" alt="Atualizar" class="icon-btn"> ATUALIZAR LISTA
+                    </button>
+                </div>
+            </section>
+
+            <a href="../index.html" class="link-sair">
+                <img src="../img/icons/exit.svg" alt="Sair" class="icon-link"> Sair do Admin
+            </a>
+        </main>
+
+        <!-- ========== FOOTER ========== -->
+        <footer>
+            <p class="footer-local">Vatiua - 2026</p>
+            <p class="footer-dev">Plataforma desenvolvida por Mahadura</p>
+        </footer>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário - Escola Básica de Vatiua</title>
+    <link rel="icon" href="img/icons/house-building.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ========== HEADER ========== -->
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <img src="img/icons/house-building.svg" alt="Escola" class="icon-logo">
+                    <h1>ESCOLA BÁSICA DE VATIUA</h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========== BODY ========== -->
+        <main>
+            <h2>📋 FORMULÁRIO DE RECOLHA DE DADOS</h2>
+            <p class="prazo">⏰ Data limite: Sexta-feira às 10h</p>
+
+            <h3 class="subtitulo-form">📌 PREENCHA AQUI OS SEUS DADOS</h3>
+
+            <form id="formulario">
+                <!-- 1º - Nome Completo -->
+                <div class="campo">
+                    <label>Nome Completo:</label>
+                    <input type="text" id="nome" placeholder="Ex: José Carlos Machava" required>
+                </div>
+
+                <!-- 2º - Função -->
+                <div class="campo">
+                    <label>Função:</label>
+                    <select id="funcao" required>
+                        <option value="">Selecione...</option>
+                        <option value="Director da Escola">Director da Escola</option>
+                        <option value="Director Adjunto Pedagógico">Director Adjunto Pedagógico</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Auxiliar">Auxiliar</option>
+                        <option value="Guarda">Guarda</option>
+                    </select>
+                </div>
+
+                <!-- 3º - Sexo -->
+                <div class="campo">
+                    <label>Sexo:</label>
+                    <select id="sexo" required>
+                        <option value="">Selecione...</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                </div>
+
+                <!-- 4º - Calçado -->
+                <div class="campo">
+                    <label>Tamanho do Calçado:</label>
+                    <input type="number" id="calcado" placeholder="Ex: 38, 40, 42 (mínimo 25)" min="25" max="50" required>
+                </div>
+
+                <!-- 5º - Roupa (dinâmico conforme sexo) -->
+                <!-- Roupa - Homem -->
+                <div id="roupa-homem" class="roupa-dinamica" style="display:none;">
+                    <div class="campo">
+                        <label>Tamanho da Camisa:</label>
+                        <select id="camisa">
+                            <option value="">Selecione...</option>
+                            <option value="L">L</option>
+                            <option value="X">X</option>
+                            <option value="XL">XL</option>
+                            <option value="XL2">XL2</option>
+                            <option value="XL3">XL3</option>
+                            <option value="XL4">XL4</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label>Tamanho da Calça:</label>
+                        <select id="calca">
+                            <option value="">Selecione...</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+                            <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Roupa - Mulher -->
+                <div id="roupa-mulher" class="roupa-dinamica" style="display:none;">
+                    <div class="campo">
+                        <label>Tipo de Roupa:</label>
+                        <select id="tipo-roupa">
+                            <option value="">Selecione...</option>
+                            <option value="Vestido">👗 Vestido</option>
+                            <option value="Blusa">👚 Blusa</option>
+                            <option value="Saia">👖 Saia</option>
+                        </select>
+                    </div>
+
+                    <!-- Vestido -->
+                    <div id="roupa-vestido" style="display:none;">
+                        <div class="campo">
+                            <label>Tamanho do Vestido:</label>
+                            <select id="tamanho-vestido">
+                                <option value="">Selecione...</option>
+                                <option value="L">L</option>
+                                <option value="X">X</option>
+                                <option value="XL">XL</option>
+                                <option value="XL2">XL2</option>
+                                <option value="XL3">XL3</option>
+                                <option value="XL4">XL4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Blusa e Saia -->
+                    <div id="roupa-blusa-saia" style="display:none;">
+                        <div class="campo">
+                            <label>Tamanho da Blusa:</label>
+                            <select id="tamanho-blusa">
+                                <option value="">Selecione...</option>
+                                <option value="L">L</option>
+                                <option value="X">X</option>
+                                <option value="XL">XL</option>
+                                <option value="XL2">XL2</option>
+                                <option value="XL3">XL3</option>
+                                <option value="XL4">XL4</option>
+                            </select>
+                        </div>
+                        <div class="campo">
+                            <label>Tamanho da Saia:</label>
+                            <select id="tamanho-saia">
+                                <option value="">Selecione...</option>
+                                <option value="L">L</option>
+                                <option value="X">X</option>
+                                <option value="XL">XL</option>
+                                <option value="XL2">XL2</option>
+                                <option value="XL3">XL3</option>
+                                <option value="XL4">XL4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6º - Distância -->
+                <div class="campo">
+                    <label>Distância Casa-Escola:</label>
+                    <input type="text" id="distancia" placeholder="Ex: 500 m ou 2.5 km" required>
+                </div>
+
+                <button type="submit" class="btn-primary">📤 ENVIAR DADOS</button>
+            </form>
+
+            <a href="index.html" class="link-voltar">
+                <img src="img/icons/arrow-left.svg" alt="Voltar" class="icon-link"> Voltar à página inicial
+            </a>
+        </main>
+
+        <!-- ========== FOOTER ========== -->
+        <footer>
+            <p class="footer-local">Vatiua - 2026</p>
+            <p class="footer-dev">Plataforma desenvolvida por Mahadura</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

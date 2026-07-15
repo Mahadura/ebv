@@ -9,7 +9,7 @@ const path = require('path');
 
 function gerarPDF(registos, estatisticas) {
     // ========== ORIENTAÇÃO HORIZONTAL ==========
-    const MARGEM = 57; // 2cm em pontos (1cm = 28.35 pontos)
+    const MARGEM = 57; // 2cm em pontos
     
     const doc = new PDFDocument({
         size: 'A4',
@@ -123,10 +123,9 @@ function gerarPDF(registos, estatisticas) {
     const startX = MARGEM;
     let startY = doc.y;
 
-    // Área disponível para a tabela (largura total - margens)
+    // Área disponível para a tabela
     const larguraDisponivel = doc.page.width - (MARGEM * 2);
 
-    // Definição das colunas com larguras proporcionais para preencher a folha
     const colunas = [
         { label: 'ORD.', width: 40 },
         { label: 'NOME COMPLETO', width: larguraDisponivel * 0.22 },
@@ -137,11 +136,9 @@ function gerarPDF(registos, estatisticas) {
         { label: 'DISTÂNCIA', width: larguraDisponivel * 0.10 }
     ];
 
-    // Ajustar largura total para somar exatamente a largura disponível
     let somaAtual = colunas.reduce((sum, col) => sum + col.width, 0);
     const diferenca = larguraDisponivel - somaAtual;
     
-    // Distribuir a diferença proporcionalmente (ajustar última coluna)
     if (diferenca !== 0) {
         const ultimaColuna = colunas[colunas.length - 1];
         ultimaColuna.width = ultimaColuna.width + diferenca;
@@ -172,7 +169,7 @@ function gerarPDF(registos, estatisticas) {
            .stroke();
     }
 
-    // ========== CABEÇALHO DA TABELA ==========
+    // ========== CABEÇALHO DA TABELA (Centralizado) ==========
     let currentY = startY;
     let currentX = startX;
 
@@ -208,7 +205,7 @@ function gerarPDF(registos, estatisticas) {
         return (a.nome || '').localeCompare(b.nome || '');
     });
 
-    // ========== PREENCHER DADOS ==========
+    // ========== PREENCHER DADOS (Alinhamento à Esquerda) ==========
     doc.font('Helvetica').fontSize(9);
 
     dadosOrdenados.forEach((item, index) => {
@@ -267,7 +264,7 @@ function gerarPDF(registos, estatisticas) {
         currentY += alturaLinha;
     });
 
-    // ========== RODAPÉ ==========
+    // ========== RODAPÉ (Centralizado) ==========
     doc.moveDown(2);
 
     doc.font('Helvetica')

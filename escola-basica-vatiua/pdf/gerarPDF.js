@@ -8,12 +8,12 @@ const fs = require('fs');
 const path = require('path');
 
 function gerarPDF(registos, estatisticas) {
-    // ========== ORIENTAÇÃO HORIZONTAL (LANDSCAPE) ==========
-    const MARGEM = 57; // 2cm em pontos
+    // ========== ORIENTAÇÃO HORIZONTAL ==========
+    const MARGEM = 57; // 2cm em pontos (1cm = 28.35 pontos)
     
     const doc = new PDFDocument({
         size: 'A4',
-        layout: 'landscape',  // ← HORIZONTAL
+        layout: 'landscape',
         margin: MARGEM
     });
 
@@ -40,13 +40,24 @@ function gerarPDF(registos, estatisticas) {
         return resultado;
     }
 
-    // ========== FUNÇÃO PARA LIMPAR TEXTO ==========
-    function limparTexto(texto) {
+    // ========== FUNÇÃO PARA FORMATAR TEXTO (Primeira Maiúscula) ==========
+    function formatarTexto(texto) {
         if (!texto) return '-';
-        return removerAcentos(String(texto))
+        let resultado = removerAcentos(String(texto))
             .replace(/\s+/g, ' ')
             .trim()
-            .toUpperCase();
+            .toLowerCase();
+        return resultado.replace(/\b\w/g, (letra) => letra.toUpperCase());
+    }
+
+    // ========== FUNÇÃO PARA FORMATAR NOME ==========
+    function formatarNome(texto) {
+        if (!texto) return '-';
+        let resultado = removerAcentos(String(texto))
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
+        return resultado.replace(/\b\w/g, (letra) => letra.toUpperCase());
     }
 
     // ========== EMBLEMA DA REPÚBLICA ==========
@@ -74,7 +85,7 @@ function gerarPDF(registos, estatisticas) {
     }
 
     // ========== CABEÇALHO ==========
-    doc.font('Helvetica-Bold')
+    doc.font('Helvetica')
        .fontSize(12)
        .text('REPÚBLICA DE MOÇAMBIQUE', { align: 'center' });
 
@@ -85,9 +96,9 @@ function gerarPDF(registos, estatisticas) {
        .text('POSTO ADMINISTRATIVO DE MAIACA', { align: 'center' })
        .text('ZIP Nº 08 DE VATIUA', { align: 'center' });
 
-    doc.font('Helvetica-Bold')
+    doc.font('Helvetica')
        .fontSize(14)
-       .text('ESCOLA BÁSICA DE VATIUA', { align: 'center' });
+       .text('Escola Básica de Vatiua', { align: 'center' });
 
     doc.moveDown(1);
 
@@ -112,15 +123,29 @@ function gerarPDF(registos, estatisticas) {
     const startX = MARGEM;
     let startY = doc.y;
 
+    // Área disponível para a tabela (largura total - margens)
+    const larguraDisponivel = doc.page.width - (MARGEM * 2);
+
+    // Definição das colunas com larguras proporcionais para preencher a folha
     const colunas = [
-        { label: 'ORD.', width: 35 },
-        { label: 'NOME COMPLETO', width: 155 },
-        { label: 'FUNÇÃO', width: 130 },
-        { label: 'SEXO', width: 55 },
-        { label: 'ROUPA', width: 150 },
-        { label: 'CALÇADO', width: 55 },
-        { label: 'DISTÂNCIA', width: 70 }
+        { label: 'ORD.', width: 40 },
+        { label: 'NOME COMPLETO', width: larguraDisponivel * 0.22 },
+        { label: 'FUNÇÃO', width: larguraDisponivel * 0.17 },
+        { label: 'SEXO', width: larguraDisponivel * 0.08 },
+        { label: 'ROUPA', width: larguraDisponivel * 0.20 },
+        { label: 'CALÇADO', width: larguraDisponivel * 0.08 },
+        { label: 'DISTÂNCIA', width: larguraDisponivel * 0.10 }
     ];
+
+    // Ajustar largura total para somar exatamente a largura disponível
+    let somaAtual = colunas.reduce((sum, col) => sum + col.width, 0);
+    const diferenca = larguraDisponivel - somaAtual;
+    
+    // Distribuir a diferença proporcionalmente (ajustar última coluna)
+    if (diferenca !== 0) {
+        const ultimaColuna = colunas[colunas.length - 1];
+        ultimaColuna.width = ultimaColuna.width + diferenca;
+    }
 
     const larguraTotal = colunas.reduce((sum, col) => sum + col.width, 0);
     const alturaCabecalho = 22;
@@ -207,32 +232,34 @@ function gerarPDF(registos, estatisticas) {
             doc.font('Helvetica').fontSize(9);
         }
 
-        const nome = limparTexto(item.nome);
-        const funcao = limparTexto(item.funcao);
-        const sexo = limparTexto(item.sexo);
-        const roupa = limparTexto(item.roupa);
-        const calcado = limparTexto(item.calcado);
-        const distancia = limparTexto(item.distancia);
+        const ordemNumero = String(index + 1).padStart(2, '0');
+        const nome = formatarNome(item.nome);
+        const funcao = formatarTexto(item.funcao);
+        const sexo = formatarTexto(item.sexo);
+        const roupa = formatarTexto(item.roupa);
+        const calcado = item.calcado || '-';
+        const distancia = formatarTexto(item.distancia);
 
         desenharGrade(startX, currentY, larguraTotal, colunas, alturaLinha);
 
         const dadosLinha = [
-            { text: String(index + 1).padStart(2, '0'), width: colunas[0].width },
+            { text: ordemNumero, width: colunas[0].width },
             { text: nome, width: colunas[1].width },
             { text: funcao, width: colunas[2].width },
             { text: sexo, width: colunas[3].width },
             { text: roupa, width: colunas[4].width },
-            { text: calcado, width: colunas[5].width },
+            { text: String(calcado), width: colunas[5].width },
             { text: distancia, width: colunas[6].width }
         ];
 
         currentX = startX;
+        const padding = 3;
         dadosLinha.forEach((item) => {
             doc.text(
                 item.text,
-                currentX + (item.width / 2) - (doc.widthOfString(item.text) / 2),
+                currentX + padding,
                 currentY + (alturaLinha / 2) - 4,
-                { width: item.width, align: 'center' }
+                { width: item.width - padding, align: 'left' }
             );
             currentX += item.width;
         });
